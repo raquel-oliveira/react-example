@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, AsyncStorage } from 'react-native';
 import axios from 'axios';
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      cep: ''
+      cep: '',
+      dataEndereco: { }
     };
   }
   render() {
@@ -37,22 +38,28 @@ export default class App extends React.Component {
       url: "https://viacep.com.br/ws/"+state.cep+"/json/"
     })
     
-    file.then(() => {
-      alert("CEP ok!")
+    file.then(async (res) => {
+      await AsyncStorage.setItem('endereco', JSON.stringify(res.data));
+      alert("CEP ok");
     }).catch((error => {
       alert(error);
     }))
   }
 
-  displayData() {
-   /*alert(rawEndereco.logradouro + '' +
-    rawEndereco.complemento+ " " +
-    rawEndereco.bairro+ " " +
-    rawEndereco.localidade + " " +
-    rawEndereco.uf+  " " +
-    rawEndereco.unidade + " " +
-    rawEndereco.ibge);
-    */
+  displayData = async () => {
+    try {
+      let endereco = await AsyncStorage.getItem('endereco');
+      let rawEndereco = JSON.parse(endereco);
+      alert(rawEndereco.logradouro + '' +
+            rawEndereco.complemento + " " +
+            rawEndereco.bairro + " " +
+            rawEndereco.localidade + " " +
+            rawEndereco.uf +  " " +
+            rawEndereco.unidade + " " +
+            rawEndereco.ibge);
+    } catch (error) {
+      alert(error);
+    }
   }
 }
 const styles = StyleSheet.create({
