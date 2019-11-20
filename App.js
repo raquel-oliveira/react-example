@@ -1,13 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Exemplo Prático</Text>
-      <Text>"Desenvolvimento para dispositivos móveis" (IMD0148)</Text>
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Exemplo Prático</Text>
+        <Text>"Desenvolvimento para dispositivos móveis" (IMD0148)</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
